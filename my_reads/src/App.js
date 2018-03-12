@@ -31,7 +31,17 @@ class BooksApp extends React.Component {
   }
 
   search(query){
-    BooksAPI.search(query).then((books) => this.setState({searchBooks: books}));
+    BooksAPI.search(query).then((search_books) => Array.isArray(search_books)? 
+      (
+        search_books.map((searchBook) => (
+          (this.state.books.find(book => book.id === searchBook.id))?
+          (searchBook.shelf = this.state.books.find(book => book.id === searchBook.id).shelf)
+          :(searchBook.shelf = "none")
+        )),
+        this.setState({searchBooks: search_books})
+      ) 
+      : (this.setState({searchBooks: []})
+      ));
   }
 
   render() {
@@ -61,7 +71,8 @@ class BooksApp extends React.Component {
             {/*当搜索到书后就会显示在该序列中*/} 
             <div className="search-books-results">
               <ol className="books-grid">
-                {this.state.searchBooks.map((book) => (
+                {/*{JSON.stringify(this.state.searchBooks)}*/}
+                {this.state.searchBooks.map((book) => (                 
                   <Book 
                     key={book.id}
                     book={book} 

@@ -6,7 +6,14 @@ class Book extends React.Component {
         if(this.props.book.shelf){
             shelf = this.props.book.shelf;
         }else{
-            shelf = 'none';
+            shelf = "none";
+        }
+
+        let thumbnail;
+        if(this.props.book.imageLinks){
+            thumbnail = this.props.book.imageLinks.thumbnail;
+        }else{
+            thumbnail = "";
         }
 
         return(
@@ -16,14 +23,14 @@ class Book extends React.Component {
                         <div className="book-cover" style={{ 
                             width: 128, 
                             height: 193, 
-                            backgroundImage: `url("${this.props.book.imageLinks.thumbnail}")` }}>
+                            backgroundImage: `url("${thumbnail}")` }}>
                         </div>
                         <div className="book-shelf-changer">
                             <select 
                                 value={shelf}
                                 onChange={(event) => this.props.change(this.props.book, event.target.value)}
                             >
-                                <option value="none" disabled>Move to...</option>
+                                <option value="none1" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
                                 <option value="read">Read</option>
